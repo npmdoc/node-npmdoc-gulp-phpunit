@@ -1,0 +1,342 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/mikeerickson/gulp-phpunit#readme"
+
+    >gulp-phpunit (v0.22.2)</a>
+</h1>
+<h4>PHPUnit plugin for Gulp</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-phpunit">module gulp-phpunit</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.gulp-phpunit">
+            function <span class="apidocSignatureSpan"></span>gulp-phpunit
+            <span class="apidocSignatureSpan">(command, opt, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">gulp-phpunit.</span>utils</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-phpunit.utils">module gulp-phpunit.utils</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.utils.defaults">
+            function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>defaults
+            <span class="apidocSignatureSpan">(args)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.utils.notifyOptions">
+            function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>notifyOptions
+            <span class="apidocSignatureSpan">(status, override)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-phpunit" id="apidoc.module.gulp-phpunit">module gulp-phpunit</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.gulp-phpunit" id="apidoc.element.gulp-phpunit.gulp-phpunit">
+        function <span class="apidocSignatureSpan"></span>gulp-phpunit
+        <span class="apidocSignatureSpan">(command, opt, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-phpunit = function (command, opt, callback) {
+
+	var cmd      = &#x27;&#x27;;
+	var launched = false;
+	var skip     = false;
+
+	// Assign default options if one is not supplied
+	opt = opt || {};
+
+	// merge default options and user supplied options
+	var defaultOptions = {
+
+		// plugin specific options (not associated with phpunit options)
+		silent:             false,
+		debug:              false,
+		clear:              false,
+		dryRun:             false,
+		notify:             true,
+		statusLine:         true,
+		showData:           false,
+
+		// code coverage options
+		coverageClover:     &#x27;&#x27;,
+		coverageCrap4j:     &#x27;&#x27;,
+		coverageHtml:       &#x27;&#x27;,
+		coveragePhp:        &#x27;&#x27;,
+		coverageText:       &#x27;&#x27;,
+		coverageXml:        &#x27;&#x27;,
+
+		// logging options
+		logJunit:           &#x27;&#x27;,
+		logTap:             &#x27;&#x27;,
+		logJson:            &#x27;&#x27;,
+		testdoxHtml:        &#x27;&#x27;,
+		testdoxText:        &#x27;&#x27;,
+
+		// test selection options
+		filter:             &#x27;&#x27;,
+		testClass:          &#x27;&#x27;,
+		testSuite:          &#x27;&#x27;,
+		group:              &#x27;&#x27;,
+		excludeGroup:       &#x27;&#x27;,
+		listGroups:         &#x27;&#x27;,
+		testSuffix:         &#x27;&#x27;,
+
+		// test execution options
+		reportUselessTests: false,
+		strictCoverage:     false,
+		disallowTestOutput: false,
+		enforceTimeLimit:   false,
+		disallowTodoTests:  false,
+		strict:             false,
+
+		processIsolation:   false,
+		noGlobalsBackup:    false,
+		staticBackup:       false,
+
+		colors:             &#x27;always&#x27;,
+		stderr:             false,
+		stopOnError:        false,
+		stopOnFailure:      false,
+		stopOnRisky:        false,
+		stopOnSkipped:      false,
+		stopOnIncomplete:   false,
+		verbose:            false,
+
+		loader:             &#x27;&#x27;,
+		repeat:             &#x27;&#x27;,
+		tap:                false,
+		testdox:            false,
+		printer:            &#x27;&#x27;,
+
+		// configuration options
+		bootstrap:          &#x27;&#x27;,
+		configurationFile:  &#x27;&#x27;,
+		noConfiguration:    false,
+		noCoverage:         false,
+		includePath:        &#x27;&#x27;
+
+	};
+	opt = _.defaults( opt, defaultOptions );
+
+	// If path to phpunit bin not supplied, use default vendor/bin path
+	if (!command) {
+		command = &#x27;./vendor/bin/phpunit&#x27;;
+
+		// Use the backslashes on Windows
+		if (os.platform() === &#x27;win32&#x27;) {
+			command = command.replace(/[/]/g, &#x27;\\&#x27;);
+		}
+	}
+	else {
+		if (typeof command !== &#x27;string&#x27;) {
+			throw new gutil.PluginError(PLUGIN_NAME, &#x27;Command Not Found: PHPUnit&#x27;);
+		}
+	}
+
+
+
+
+	return map( function (file, cb) {
+		// First file triggers the command, so other files does not matter
+		if (launched) {
+			return cb(null, file);
+		}
+		launched = true;
+
+		<span class="apidocCodeCommentSpan">/* code coverage */
+</span>		if(opt.coverageClover)      { cmd += &#x27; --coverage-clover=&#x27; + opt.coverageClover; }
+		if(opt.coverageCrap4j)      { cmd += &#x27; --coverage-crap4j=&#x27; + opt.coverageCrap4j; }
+		if(opt.coverageHtml)        { cmd += &#x27; --coverage-html=&#x27; + opt.coverageHtml; }
+		if(opt.coveragePhp)         { cmd += &#x27; --coverage-php=&#x27; + opt.coveragePhp; }
+		if(opt.coverageText)        { cmd += &#x27; --coverage-text=&#x27; + opt.coverageText; }
+		if(opt.coverageXml)         { cmd += &#x27; --coverage-xml=&#x27; + opt.coverageXml; }
+
+		/* logging options */
+		if(opt.logJunit)            { cmd += &#x27; --log-junit=&#x27; + opt.logJunit; }
+		if(opt.logTap)              { cmd += &#x27; --log-tap=&#x27; + opt.logTap; }
+		if(opt.logJson)             { cmd += &#x27; --log-json=&#x27; + opt.logJson; }
+		if(opt.testdoxHtml)         { cmd += &#x27; --testdox-html=&#x27; + opt.testdoxHtml; }
+		if(opt.testdoxText)         { cmd += &#x27; --testdox-text=&#x27; + opt.testdoxText; }
+
+		/* test selection */
+		if(opt.filter)              { cmd += &#x27; --filter=&#x27; + opt.filter; }
+		if(opt.group)               { cmd += &#x27; --group=&#x27; + opt.group; }
+		if(opt.excludeGroup)        { cmd += &#x27; --exclude-group=&#x27; + opt.excludeGroup; }
+		if(opt.listGroups)          { cmd += &#x27; --list-groups=&#x27; + opt.listGroups; }
+		if(opt.testSuffix)          { cmd += &#x27; --test-suffix=&#x27; + opt.testSuffix; }
+
+		/* test execution options */
+		if(opt.reportUselessTests)  { cmd += &#x27; --report-useless-tests&#x27;; }
+		if(opt.strictCoverage)      { cmd += &#x27; --strict-coverage&#x27;; }
+		if(opt.disallowTestOutput)  { cmd += &#x27; --disallow-test-output&#x27;; }
+		if(opt.enforceTimeLimit)    { cmd += &#x27; --enforce-time-limit&#x27;; }
+		if(opt.d ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-phpunit.utils" id="apidoc.module.gulp-phpunit.utils">module gulp-phpunit.utils</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.utils.defaults" id="apidoc.element.gulp-phpunit.utils.defaults">
+        function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>defaults
+        <span class="apidocSignatureSpan">(args)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">defaults = function (args) {
+		return _.defaults(args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+		bootstrap:          &#x27;&#x27;,
+		configurationFile:  &#x27;&#x27;,
+		noConfiguration:    false,
+		noCoverage:         false,
+		includePath:        &#x27;&#x27;
+
+	};
+	opt = _.<span class="apidocCodeKeywordSpan">defaults</span>( opt, defaultOptions );
+
+	// If path to phpunit bin not supplied, use default vendor/bin path
+	if (!command) {
+		command = &#x27;./vendor/bin/phpunit&#x27;;
+
+		// Use the backslashes on Windows
+		if (os.platform() === &#x27;win32&#x27;) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.utils.notifyOptions" id="apidoc.element.gulp-phpunit.utils.notifyOptions">
+        function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>notifyOptions
+        <span class="apidocSignatureSpan">(status, override)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">notifyOptions = function (status, override) {
+		var options = {
+			taskName: &#x27;Task&#x27;,
+			title: ( status === &#x27;pass&#x27;) ? &#x27;Passed&#x27; : &#x27;Failed&#x27;,
+			message: ( status === &#x27;pass&#x27; ) ? &#x27;&#x3c;%= taskName %&#x3e; Completed Successfully&#x27; : &#x27;&#x3c;%= taskName %&#x3e; Failed&#x27;,
+			icon: &#x27;./node_modules/gulp-phpunit/assets/test-&#x27; + status + &#x27;.png&#x27;
+		};
+
+		var newOptions     = _.merge(options, override);
+		newOptions.message = _.template(newOptions.message)(newOptions);
+		return newOptions;
+
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+					}
+					cb(null, file);
+				}
+
+
+				// if notify flag enabled, show notification
+				if ( opt.notify ) {
+					var options = utils.<span class="apidocCodeKeywordSpan">notifyOptions</span>(error ? &#x27;fail&#x27; : &#x27;pass&#x27;,{taskName
+: &#x27;PHPUnit&#x27;});
+					notifier.notify(options);
+				}
+
+			}).stdout.on(&#x27;data&#x27;, function (data) {
+				if ((!opt.silent) &#x26;&#x26; (opt.showData)) {
+					var str = data.toString();
+					console.log(data);
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>

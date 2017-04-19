@@ -1,0 +1,336 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/mikeerickson/gulp-phpunit#readme">gulp-phpunit (v0.22.2)</a>
+</h1>
+<h4>PHPUnit plugin for Gulp</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-phpunit">module gulp-phpunit</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.gulp-phpunit">
+            function <span class="apidocSignatureSpan"></span>gulp-phpunit
+            <span class="apidocSignatureSpan">(command, opt, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">gulp-phpunit.</span>utils</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-phpunit.utils">module gulp-phpunit.utils</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.utils.defaults">
+            function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>defaults
+            <span class="apidocSignatureSpan">(args)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-phpunit.utils.notifyOptions">
+            function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>notifyOptions
+            <span class="apidocSignatureSpan">(status, override)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-phpunit" id="apidoc.module.gulp-phpunit">module gulp-phpunit</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.gulp-phpunit" id="apidoc.element.gulp-phpunit.gulp-phpunit">
+        function <span class="apidocSignatureSpan"></span>gulp-phpunit
+        <span class="apidocSignatureSpan">(command, opt, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-phpunit = function (command, opt, callback) {
+
+	var cmdÂ&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; = '';
+	var launched = false;
+	var skipÂ&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; = false;
+
+	// Assign default options if one is not supplied
+	opt = opt || {};
+
+	// merge default options and user supplied options
+	var defaultOptions = {
+
+		// plugin specific options (not associated with phpunit options)
+		silent:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		debug:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		clear:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		dryRun:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		notify:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; true,
+		statusLine:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; true,
+		showData:           false,
+
+		// code coverage options
+		coverageClover:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		coverageCrap4j:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		coverageHtml:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		coveragePhp:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		coverageText:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		coverageXml:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+
+		// logging options
+		logJunit:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		logTap:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		logJson:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		testdoxHtml:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		testdoxText:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+
+		// test selection options
+		filter:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		testClass:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		testSuite:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		group:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		excludeGroup:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		listGroups:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		testSuffix:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+
+		// test execution options
+		reportUselessTests: false,
+		strictCoverage:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		disallowTestOutput: false,
+		enforceTimeLimit:Â&nbsp;Â&nbsp; false,
+		disallowTodoTests:Â&nbsp; false,
+		strict:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+
+		processIsolation:Â&nbsp;Â&nbsp; false,
+		noGlobalsBackup:Â&nbsp;Â&nbsp;Â&nbsp; false,
+		staticBackup:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+
+		colors:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; 'always',
+		stderr:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		stopOnError:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		stopOnFailure:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		stopOnRisky:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; Â&nbsp;Â&nbsp;Â&nbsp;false,
+		stopOnSkipped:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		stopOnIncomplete:Â&nbsp;Â&nbsp; false,
+		verbose:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+
+		loader:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		repeat:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		tap:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		testdox:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; false,
+		printer:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+
+		// configuration options
+		bootstrap:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		configurationFile:Â&nbsp; '',
+		noConfiguration:Â&nbsp;Â&nbsp;Â&nbsp; false,
+		noCoverage:         false,
+		includePath:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; ''
+
+	};
+	opt = _.defaults( opt, defaultOptions );
+
+	// If path to phpunit bin not supplied, use default vendor/bin path
+	if (!command) {
+		command = './vendor/bin/phpunit';
+
+		// Use the backslashes on Windows
+		if (os.platform() === 'win32') {
+			command = command.replace(/[/]/g, '\\');
+		}
+	}
+	else {
+		if (typeof command !== 'string') {
+			throw new gutil.PluginError(PLUGIN_NAME, 'Command Not Found: PHPUnit');
+		}
+	}
+
+
+
+
+	return map( function (file, cb) {
+		// First file triggers the command, so other files does not matter
+		if (launched) {
+			return cb(null, file);
+		}
+		launched = true;
+
+		<span class="apidocCodeCommentSpan">/* code coverage */
+</span>		if(opt.coverageClover)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-clover=' + opt.coverageClover; }
+		if(opt.coverageCrap4j)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-crap4j=' + opt.coverageCrap4j; }
+		if(opt.coverageHtml)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-html=' + opt.coverageHtml; }
+		if(opt.coveragePhp)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-php=' + opt.coveragePhp; }
+		if(opt.coverageText)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-text=' + opt.coverageText; }
+		if(opt.coverageXml)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --coverage-xml=' + opt.coverageXml; }
+
+		/* logging options */
+		if(opt.logJunit)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --log-junit=' + opt.logJunit; }
+		if(opt.logTap)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --log-tap=' + opt.logTap; }
+		if(opt.logJson)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --log-json=' + opt.logJson; }
+		if(opt.testdoxHtml)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --testdox-html=' + opt.testdoxHtml; }
+		if(opt.testdoxText)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --testdox-text=' + opt.testdoxText; }
+
+		/* test selection */
+		if(opt.filter)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --filter=' + opt.filter; }
+		if(opt.group)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --group=' + opt.group; }
+		if(opt.excludeGroup)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --exclude-group=' + opt.excludeGroup; }
+		if(opt.listGroups)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --list-groups=' + opt.listGroups; }
+		if(opt.testSuffix)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --test-suffix=' + opt.testSuffix; }
+
+		/* test execution options */
+		if(opt.reportUselessTests)Â&nbsp; { cmd += ' --report-useless-tests'; }
+		if(opt.strictCoverage)Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --strict-coverage'; }
+		if(opt.disallowTestOutput)Â&nbsp; { cmd += ' --disallow-test-output'; }
+		if(opt.enforceTimeLimit)Â&nbsp;Â&nbsp;Â&nbsp; { cmd += ' --enforce-time-limit'; }
+		if(opt.d ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-phpunit.utils" id="apidoc.module.gulp-phpunit.utils">module gulp-phpunit.utils</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.utils.defaults" id="apidoc.element.gulp-phpunit.utils.defaults">
+        function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>defaults
+        <span class="apidocSignatureSpan">(args)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">defaults = function (args) {
+		return _.defaults(args);
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+		bootstrap:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; '',
+		configurationFile:Â&nbsp; '',
+		noConfiguration:Â&nbsp;Â&nbsp;Â&nbsp; false,
+		noCoverage:         false,
+		includePath:Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp;Â&nbsp; ''
+
+	};
+	opt = _.<span class="apidocCodeKeywordSpan">defaults</span>( opt, defaultOptions );
+
+	// If path to phpunit bin not supplied, use default vendor/bin path
+	if (!command) {
+		command = './vendor/bin/phpunit';
+
+		// Use the backslashes on Windows
+		if (os.platform() === 'win32') {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-phpunit.utils.notifyOptions" id="apidoc.element.gulp-phpunit.utils.notifyOptions">
+        function <span class="apidocSignatureSpan">gulp-phpunit.utils.</span>notifyOptions
+        <span class="apidocSignatureSpan">(status, override)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">notifyOptions = function (status, override) {
+		var options = {
+			taskName: 'Task',
+			title: ( status === 'pass') ? 'Passed' : 'Failed',
+			message: ( status === 'pass' ) ? '&lt;%= taskName %&gt; Completed Successfully' : '&lt;%= taskName %&gt; Failed',
+			icon: './node_modules/gulp-phpunit/assets/test-' + status + '.png'
+		};
+
+		var newOptions     = _.merge(options, override);
+		newOptions.message = _.template(newOptions.message)(newOptions);
+		return newOptions;
+
+	}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+					}
+					cb(null, file);
+				}
+
+
+				// if notify flag enabled, show notification
+				if ( opt.notify ) {
+					var options = utils.<span class="apidocCodeKeywordSpan">notifyOptions</span>(error ? 'fail' : 'pass',{taskName
+: 'PHPUnit'});
+					notifier.notify(options);
+				}
+
+			}).stdout.on('data', function (data) {
+				if ((!opt.silent) &amp;&amp; (opt.showData)) {
+					var str = data.toString();
+					console.log(data);
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
